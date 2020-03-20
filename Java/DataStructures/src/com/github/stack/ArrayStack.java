@@ -1,3 +1,5 @@
+package com.github.stack;
+
 import java.util.ArrayList;
 
 public class ArrayStack<E> implements Stack<E> {

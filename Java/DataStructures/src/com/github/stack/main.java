@@ -1,3 +1,5 @@
+package com.github.stack;
+
 public class main {
     public static void main(String[] args) {
         ArrayStack<Integer> stack = new ArrayStack<>();
