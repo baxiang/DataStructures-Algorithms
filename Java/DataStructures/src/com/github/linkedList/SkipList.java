@@ -204,23 +204,6 @@ public class SkipList {
         System.out.println();
     }
 
-    /**
-     * 打印所有数据
-     */
-    public void printAll_beautiful() {
-        Node p = head;// 头结点
-        Node[] c = p.forwards;
-        Node[] d = c;
-        for (int i = levelCount - 1; i >= 0; i--) {
-            do {
-                System.out.print((d[i] != null ? d[i].data : null) + ":" + i + "-------");
-            } while (d[i] != null && (d = d[i].forwards)[i] != null);
-            System.out.println();
-            d = c;
-        }
-    }
-
-
 
 
     /**
