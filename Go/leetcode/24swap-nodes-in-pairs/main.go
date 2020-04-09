@@ -7,115 +7,59 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func swapPairs(head *ListNode) *ListNode {
-	  pre := &ListNode{}// 创建哨兵节点
-	  pre.Next = head
-	  temp := pre
-      for temp.Next!=nil&&temp.Next.Next!=nil {
-      	s :=temp.Next
-      	e := temp.Next.Next
-      	temp.Next = e
-      	s.Next = e.Next
-      	e.Next = s
-      	temp = s
-	  }
-      return pre.Next
-}
+
 func swapPairs1(head *ListNode) *ListNode {
 	dummy := &ListNode{-1, nil}
 	dummy.Next = head
-	p := dummy
-	for p.Next != nil && p.Next.Next != nil{
-		first := p.Next
-		second := first.Next
+	preNode := dummy // 就是前一个节点
+	for head != nil && head.Next!= nil{
+		first := head
+		second := head.Next
 		//交换前两个节点
+
 		first.Next = second.Next
 		second.Next = first
-		p.Next = second
-		p = p.Next.Next
+		preNode.Next =second
+
+		preNode = first //需要把位置移到前一个节点去
+		head = first.Next
 	}
 	return dummy.Next
 }
 
-func tailNode(head *ListNode)*ListNode {
-	curr := head
-	var tail *ListNode
-	for curr!=nil{
-		tail = curr
-		curr = curr.Next
+func swapPairs(head *ListNode) *ListNode {
+	dummy := &ListNode{}
+	dummy.Next = head
+	preNode := dummy
+	for head!=nil&&head.Next!=nil{
+		first := head
+		second := head.Next
+
+		// 交换数据
+		preNode.Next = second
+		first.Next = second.Next
+		second.Next = first
+
+		// 移动
+		preNode = first
+		head = first.Next
 	}
-	fmt.Println(tail.Val)
-	return tail
+	return dummy.Next
 }
+
+
 func swapPairs2(head *ListNode) *ListNode {
-	dummy := &ListNode{}
-	curr := head
-	tail := dummy
-	for curr != nil && curr.Next != nil{
-		t := &ListNode{
-			Val:  curr.Val,
-			Next: nil,
-		}
-		tail.Next = &ListNode{
-			Val:  curr.Next.Val,
-			Next: t,
-		}
-		tail = t
-		curr = curr.Next.Next
+	//终止条件：链表只剩一个节点或者没节点了，没得交换了。返回的是已经处理好的链表
+	if head ==nil||head.Next==nil {
+		return head
 	}
-	if curr!= nil {
-		tail.Next = &ListNode{
-			Val:  curr.Val,
-		}
-	}
-	return dummy.Next
-}
-
-func swapPairs3(head *ListNode) *ListNode {
-	dummy := &ListNode{}
-	curr := head
-	tail := dummy
-	for curr != nil && curr.Next != nil{
-		tmp := curr.Next.Next
-
-		curr = tmp
-	}
-	tail.Next = curr
-	return dummy.Next
-}
-
-func revertNode(root *ListNode) *ListNode{
-	dummy := &ListNode{Val:  0, Next: nil}
-	curr := root
-	for curr!=nil{//遍历
-		head := dummy.Next// 当前头节点
-		newNote := &ListNode{
-			Val:  curr.Val,
-		}
-		dummy.Next = newNote
-		newNote.Next = head
-		curr = curr.Next
-	}
-	return dummy.Next
-}
-//for cur != nil{
-//next := cur.Next // 为了遍历，临时变量存储当前节点的下一个节点
-//head :=  dummyNode.Next // 临时变量存储当前哑结点的指向的头结点
-//dummyNode.Next = cur // 往头部插入数据,当前节点变成了头结点了
-//cur.Next = head // 为了维持链条 需要把之前的头结点变成下一个节点
-//cur = next // 遍历移动
-//}
-func revertNode1(root *ListNode) *ListNode{
-	dummy := &ListNode{Val:  0, Next: nil}
-	curr := root
-	for curr!=nil{//遍历
-		temp := curr.Next
-		h := dummy.Next// 当前头节点
-		dummy.Next = curr
-		curr.Next = h
-		curr = temp
-	}
-	return dummy.Next
+	//一共三个节点:head, next, swapPairs(next.next)
+	//下面的任务便是交换这3个节点中的前两个节点
+	next := head.Next
+	head.Next= swapPairs2(next.Next)
+	next.Next = head
+	//根据第二步：返回给上一级的是当前已经完成交换后，即处理好了的链表部分
+	return  next
 }
 
 
@@ -131,9 +75,9 @@ func main() {
 	c.Next = d
 	d.Next = e
 	e.Next = f
-	h := swapPairs(a)
+	h := swapPairs2(a)
 	for h!=nil{
-		//fmt.Println(h.Val)
+		fmt.Println(h.Val)
 		h=h.Next
 	}
 }

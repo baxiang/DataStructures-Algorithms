@@ -26,6 +26,23 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
       return d.Next
 }
 
+func removeNthFromEnd1(head *ListNode, n int) *ListNode {
+	//dump node
+	dummyNode := &ListNode{}// 创建哨兵节点
+	dummyNode.Next = head // 将哨兵节点指向头结点
+	curr := dummyNode // 从哨兵节点开始存储 可以保证n=len(list)正数第一个节点
+	var list []*ListNode // 遍历数组存储
+	for curr!=nil{
+		list = append(list,curr)
+		curr = curr.Next
+	}
+	pre := list[len(list)-n-1]
+	curr = list[len(list)-n]
+	pre.Next = curr.Next // 去掉当前节点
+	return dummyNode.Next
+}
+
+
 func main() {
 	head := &ListNode{Val:1}
 	head.Next = &ListNode{Val:2}
@@ -35,7 +52,7 @@ func main() {
 	node.Next = &ListNode{Val:4}
 	node = node.Next
 	node.Next = &ListNode{Val:5}
-	d := removeNthFromEnd(head,2)
+	d := removeNthFromEnd1(head,1)
 	for  d!=nil {
 		fmt.Println(d.Val)
 		d = d.Next
