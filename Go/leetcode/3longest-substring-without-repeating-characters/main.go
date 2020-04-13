@@ -30,17 +30,18 @@ func max(i,j int)int{
 }
 
 func lengthOfLongestSubstring1(s string) int{
-	ans := 0
+	if len(s)==0 {
+		return 0
+	}
+	ans := 1 // 默人就是1了
 	m := map[byte]int{}
-	end,start :=0,0
-	for  ;end<len(s);end++{
-		 c := s[end]
-		 l,ok := m[c]
-		if ok {
-			start = max(l,start)
+	start := 0
+	for i:=0 ;i<len(s);i++{// 遍历字符串
+		if index,ok := m[s[i]];ok {//存在
+			start = max(start,index)//但是要保证起始索引是递增的
 		}
-		 ans = max(ans,end-start+1)
-		 m[c]=end+1
+		ans = max(ans,i-start)
+		m[s[i]]=i
 	}
 	return ans
 }
@@ -48,10 +49,10 @@ func lengthOfLongestSubstring1(s string) int{
 
 
 func lengthOfLongestSubstring2(s string) int{
-	m :=make(map[byte]int)
+	m :=make(map[byte]int) //定义map
 	max :=0
     start :=0
-	for i,_:=range s{
+	for i :=range s{
 		v,ok := m[s[i]]
 		if ok {
 			j := start
@@ -67,13 +68,29 @@ func lengthOfLongestSubstring2(s string) int{
 	}
 	return max
 }
-
+func lengthOfLongestSubstring3(s string) int{
+	m := make(map[byte]int)
+	var r []byte //窗口数据
+	l :=0
+	for i :=range s{
+		if j,ok:=m[s[i]];ok {
+			if i-j>len(r) {
+				r =r[i-j:]
+			}
+		}else {
+			r = append(r,s[i])
+		}
+		m[s[i]] = i
+		l = max(l,len(r))
+	}
+	return l
+}
 func main() {
-	fmt.Println(lengthOfLongestSubstring2("abcabcbb"))
-	fmt.Println(lengthOfLongestSubstring2("bbbb"))
-	fmt.Println(lengthOfLongestSubstring2("pwwkew"))
-	fmt.Println(lengthOfLongestSubstring2("abba"))
-	fmt.Println(lengthOfLongestSubstring2("bpfbhmipx"))
-    fmt.Println(lengthOfLongestSubstring2("eeydgwdykpv"))
+	fmt.Println(lengthOfLongestSubstring3("abcabcbb"))//3
+	fmt.Println(lengthOfLongestSubstring3("bbbb"))//1
+	fmt.Println(lengthOfLongestSubstring1("pwwkew"))//3
+	fmt.Println(lengthOfLongestSubstring1("abba"))//2
+	fmt.Println(lengthOfLongestSubstring1("bpfbhmipx"))//7
+    fmt.Println(lengthOfLongestSubstring1("eeydgwdykpv"))//7
 
 }
