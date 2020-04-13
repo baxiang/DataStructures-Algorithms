@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-func nextPermutation(nums []int)  {
+func nextPermutation3(nums []int)  {
 	n := len(nums)
 	var i = n-1
 	for ;i > 0; i-- {
@@ -73,23 +73,39 @@ func nextPermutation2(nums []int) {
 	}
 }
 
+func nextPermutation(nums []int) {
+	// 第一步从右往左查找最大的升序队列
+	i := len(nums)-2// 倒数第二个数
+	for i >= 0&&nums[i]>=nums[i+1] {
+		i--
+	}
+
+	if i==-1 {
+		// 从右往左一直是升序
+		sort.Ints(nums)
+	}else {
+		j := len(nums)-1
+		// 从右往左找第一个比i索引值大的数字索引坐标
+		for j>=0&&nums[j]<=nums[i]{
+			j--
+		}
+
+		//交换他两位置
+		nums[i], nums[j] = nums[j], nums[i]
+		// 重新排序
+		sort.Ints(nums[i+1:])
+
+	}
+	fmt.Println(nums)
+}
 
 
 
 
 func main() {
-	num := []int{1,2,3}
-	nextPermutation(num)
-	fmt.Println(num)
-	num1 := []int{3,2,1}
-	nextPermutation(num1)
-	fmt.Println(num1)
-	num2 := []int{1,1,5}
-	nextPermutation(num2)
-	fmt.Println(num2)
-
-	num3 := []int{1,3,5,7,9}
-	nextPermutation2(num3)
-	fmt.Println(num3)
-
+	//nextPermutation([]int{1,2,3})
+	//nextPermutation([]int{3,2,1})
+	nextPermutation([]int{1,5,1})
+	//nextPermutation([]int{1,1,5})
+	//nextPermutation([]int{1,3,5,7,9})
 }
