@@ -55,19 +55,20 @@ func preorderTraversal2(root *TreeNode) []int {
 	// 创建栈 递归从根源就是栈结构
 	stack := make([]*TreeNode, 0)
 	stack = append(stack,root)
-	// 只要当前节点不为空，或者栈不为空，就一直循环查找左节点
+	// 只要栈不为空
 	for  len(stack) > 0 {
+		//直接出栈
 		 curr := stack[len(stack)-1]
 		 stack = stack[:len(stack)-1]
-		 fmt.Println(curr.Val)
 		 l = append(l,curr.Val)
+		 //先压入右节点
 		if curr.Right != nil {
 			stack = append(stack,curr.Right)
 		}
+		 //先压入左节点
 		if curr.Left != nil {
 			stack = append(stack,curr.Left)
 		}
-
 	}
 	return l
 }
