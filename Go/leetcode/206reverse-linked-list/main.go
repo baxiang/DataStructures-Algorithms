@@ -23,7 +23,7 @@ func reverseList1(head *ListNode) *ListNode {
 	return pre
 }
 
-func reverseList(head *ListNode) *ListNode {
+func reverseList2(head *ListNode) *ListNode {
 	if head == nil||head.Next==nil{
 		return head
 	}
@@ -37,6 +37,17 @@ func reverseList(head *ListNode) *ListNode {
 		cur = next // 遍历移动
 	}
 	return dummyNode.Next // 返回头结点
+}
+
+
+func reverseList(head *ListNode) *ListNode {
+	var pre *ListNode
+	curr := head
+	for curr!= nil{//当为空表示迭代结束
+		//前一个值 ，当前值，后一个值
+		pre,curr,curr.Next = curr,curr.Next,pre
+	}
+	return pre
 }
 
 func makeLinkedList(list []int)*ListNode{
