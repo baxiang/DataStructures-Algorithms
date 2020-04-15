@@ -114,11 +114,36 @@ func heapfix(arr []int,i int){
 	}
 }
 
+func quickSort1(arr []int)[]int{
+	if len(arr)<2 {
+		return arr
+	}
+	var min []int
+	var max []int
+	var mid []int
+	m :=arr[0]
+	for i:=0;i<len(arr);i++{
+		if m<arr[i] {// big data
+			max = append(max,arr[i])
+		}
+		if m>arr[i] { // small
+			min = append(min,arr[i])
+		}
+		if m==arr[i] {// equal
+			mid = append(mid,arr[i])
+		}
+	}
+	r := quickSort1(min)
+	r = append(r,mid...)
+	r =  append(r,quickSort1(max)...)
+   return r
+}
+
 
 //面试题40. 最小的k个数 https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/
 func main() {
 	//fmt.Println(getLeastNumbers1([]int{3,2,1,4,7,9},4))
 	l :=[]int{10,3,2,1,0,4,7,9}
 	buildHeap(l)
-	fmt.Println(l)
+	fmt.Println(quickSort1(l))
 }
