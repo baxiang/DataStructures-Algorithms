@@ -39,6 +39,38 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 	}
 	return dummy.Next
 }
+
+func reverseKGroup1(head *ListNode, k int) *ListNode {
+	dummy := &ListNode{Val:  -1,}
+	dummy.Next = head
+	pre := dummy
+	stack := make([]*ListNode,0)
+	n := k
+	for pre.Next!=nil{
+		tmp := pre.Next
+		for tmp!= nil&&n>0{
+			stack = append(stack,tmp)
+			tmp = tmp.Next
+			n--
+		}
+		nextNode := stack[len(stack)-1].Next
+		if n==0{
+			for len(stack)>0{
+				node :=stack[len(stack)-1]
+				stack = stack[:len(stack)-1]
+				pre.Next = node
+				pre = pre.Next
+			}
+			//需要保证节点的连续行
+			pre.Next = nextNode
+			n = k
+		}else {
+			return dummy.Next
+		}
+	}
+	return dummy.Next
+}
+
 func main() {
 	a := &ListNode{Val:  1}
 	b :=&ListNode{Val:  2}
@@ -51,7 +83,7 @@ func main() {
 	d.Next = e
 	f :=&ListNode{Val:  6}
 	e.Next = f
-	r := reverseKGroup(a,3)
+	r := reverseKGroup1(a,3)
 	for r!=nil{
 		fmt.Println(r.Val)
 		r = r.Next
