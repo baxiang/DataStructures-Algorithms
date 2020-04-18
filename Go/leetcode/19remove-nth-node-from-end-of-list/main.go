@@ -1,7 +1,6 @@
 package main
 
 import "fmt"
-
 type ListNode struct {
      Val int
      Next *ListNode
@@ -42,6 +41,28 @@ func removeNthFromEnd1(head *ListNode, n int) *ListNode {
 	return dummyNode.Next
 }
 
+func removeNthFromEnd2(head *ListNode, n int) *ListNode {
+	//dump node
+	dummyNode := &ListNode{}// 创建哨兵节点
+	dummyNode.Next = head // 将哨兵节点指向头结点
+	var fast = head
+	for i:=0;i<n;i++{
+		fast =fast.Next
+	}
+	var slow = head
+	var pro = dummyNode
+	for fast!=nil{
+		pro = slow
+		slow= slow.Next
+		fast = fast.Next
+	}
+	pro.Next = slow.Next
+	return dummyNode.Next
+}
+
+
+
+
 
 func main() {
 	head := &ListNode{Val:1}
@@ -52,7 +73,7 @@ func main() {
 	node.Next = &ListNode{Val:4}
 	node = node.Next
 	node.Next = &ListNode{Val:5}
-	d := removeNthFromEnd1(head,1)
+	d :=removeNthFromEnd2(head,2)
 	for  d!=nil {
 		fmt.Println(d.Val)
 		d = d.Next

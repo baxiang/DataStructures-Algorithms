@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func lengthOfLongestSubstring(s string) int {
+func lengthOfLongestSubstring4(s string) int {
 	freq := make([]int,128)
 	var res = 0
 	start,end := 0,-1
@@ -28,25 +28,6 @@ func max(i,j int)int{
 		return j
 	}
 }
-
-func lengthOfLongestSubstring1(s string) int{
-	if len(s)==0 {
-		return 0
-	}
-	ans := 1 // 默人就是1了
-	m := map[byte]int{}
-	start := 0
-	for i:=0 ;i<len(s);i++{// 遍历字符串
-		if index,ok := m[s[i]];ok {//存在
-			start = max(start,index)//但是要保证起始索引是递增的
-		}
-		ans = max(ans,i-start)
-		m[s[i]]=i
-	}
-	return ans
-}
-
-
 
 func lengthOfLongestSubstring2(s string) int{
 	m :=make(map[byte]int) //定义map
@@ -85,12 +66,32 @@ func lengthOfLongestSubstring3(s string) int{
 	}
 	return l
 }
+
+
+func lengthOfLongestSubstring1(s string) int{
+	if len(s)==0 {
+		return 0
+	}
+	ans := 0 // 默认就是1了
+	m := map[byte]int{}
+	start := -1
+	for i:=0 ;i<len(s);i++{// 遍历字符串
+		if index,ok := m[s[i]];ok {//存在
+			start = max(start,index)//但是要保证起始索引是递增的
+		}
+		ans = max(ans,i-start)
+		m[s[i]]=i
+	}
+	return ans
+}
+
 func main() {
-	fmt.Println(lengthOfLongestSubstring3("abcabcbb"))//3
-	fmt.Println(lengthOfLongestSubstring3("bbbb"))//1
+	fmt.Println(lengthOfLongestSubstring(""))//1
+	fmt.Println(lengthOfLongestSubstring1("au"))//2
+	fmt.Println(lengthOfLongestSubstring1("abcabcbb"))//3
+	fmt.Println(lengthOfLongestSubstring1("bbbb"))//1
 	fmt.Println(lengthOfLongestSubstring1("pwwkew"))//3
 	fmt.Println(lengthOfLongestSubstring1("abba"))//2
 	fmt.Println(lengthOfLongestSubstring1("bpfbhmipx"))//7
     fmt.Println(lengthOfLongestSubstring1("eeydgwdykpv"))//7
-
 }
