@@ -47,33 +47,9 @@ func nextPermutation1(nums []int)  {
 
 }
 
-func nextPermutation2(nums []int) {
-	// 倒着寻找一个降序索引
-	index := -1
-	for i := len(nums) - 1; i > 0; i-- {
-		if nums[i-1] < nums[i] {
-			// 实际是index += (i-1)+1
-			index += i
-			break
-		}
-	}
-	fmt.Println(index)
-	// 当前已经是最大序
-	if index == -1 {
-		sort.Ints(nums)
-	} else {
-		// 从nums[index+1:]中寻找一个大于它的最小值
-		for i := len(nums) - 1; i > index; i-- {
-			if nums[i] > nums[index] {
-				// 交换 & 重排
-				nums[i], nums[index] = nums[index], nums[i]
-				sort.Ints(nums[index+1:])
-			}
-		}
-	}
-}
 
-func nextPermutation(nums []int) {
+
+func nextPermutation4(nums []int) {
 	// 第一步从右往左查找最大的升序队列
 	i := len(nums)-2// 倒数第二个数
 	for i >= 0&&nums[i]>=nums[i+1] {
@@ -99,13 +75,35 @@ func nextPermutation(nums []int) {
 	fmt.Println(nums)
 }
 
-
+func nextPermutation(nums []int){
+	// 倒序查找第一个 默认是升序 查找截断升序的索引位置
+	index :=-1
+	for i:=len(nums)-1;i>0;i--{
+		if nums[i-1]<nums[i] {
+			index = i-1
+			break
+		}
+	}
+	// 从末尾一直是升序
+	if index==-1 {
+		sort.Ints(nums)
+		return
+	}
+	for i:=len(nums)-1;i>index;i--{
+		if nums[i]>nums[index] {
+			nums[i],nums[index]=nums[index],nums[i]
+			break
+		}
+	}
+	sort.Ints(nums[index+1:])
+    fmt.Println(nums)
+}
 
 
 func main() {
-	//nextPermutation([]int{1,2,3})
-	//nextPermutation([]int{3,2,1})
-	nextPermutation([]int{1,5,1})
-	//nextPermutation([]int{1,1,5})
-	//nextPermutation([]int{1,3,5,7,9})
+	nextPermutation([]int{1,2,3})//1 3 2
+	nextPermutation([]int{3,2,1})// 1 2 3
+	nextPermutation([]int{1,5,1})// 5 1 1
+	nextPermutation([]int{1,1,5})// 1 5 1
+	nextPermutation([]int{1,6,9,8,7})// 1 7 6 8 9
 }
