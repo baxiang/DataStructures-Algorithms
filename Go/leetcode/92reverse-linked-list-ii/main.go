@@ -27,22 +27,55 @@ func reverseBetween1(head *ListNode, m int, n int) *ListNode {
 	return dummyNode.Next
 }
 
-
 func reverseBetween(head *ListNode, m int, n int) *ListNode {
-	dummyNode := &ListNode{}
-	tail := dummyNode
-	currNode := head
-	index := 1
-	for currNode!=nil{
-		if index<m {
-			tail.Next = currNode
-			tail = tail
+	dummyHead :=&ListNode{
+		Val:  -1,
+		Next: head,
+	}
+	curr :=head
+	i := 1
+	pre :=dummyHead
+	var next *ListNode
+	var start *ListNode
+	for curr!=nil{
+		if i==m {
+			start = curr
 		}
-		currNode = currNode.Next
+		if i==n{
+			next = curr.Next
+			curr.Next = nil
+			pre.Next = revertNode(start)
+			start.Next = next
+			return dummyHead.Next
+		}
+		if i<=m-1{
+			pre = curr //获取前一个节点
+		}
+		curr = curr.Next
+		i++
 	}
 
+	return dummyHead.Next
+}
 
-	return dummyNode.Next
+func revertNode(head*ListNode)*ListNode{
+	curr :=head
+	var pre *ListNode
+	for curr!=nil{
+		pre,curr,curr.Next = curr,curr.Next,pre
+	}
+	return pre
+}
+func revertNode1(head*ListNode)*ListNode{
+	  var pre *ListNode
+	  curr := head
+	  for curr!=nil{
+		  tmp :=curr.Next
+		  curr.Next = pre
+		  pre = curr
+	  	  curr= tmp
+	  }
+	return pre
 }
 
 func makeLinkedList(list []int)*ListNode{
@@ -55,8 +88,9 @@ func makeLinkedList(list []int)*ListNode{
 	return dummyNode.Next
 }
 func main() {
-     head := makeLinkedList([]int{1,2,3,4,5,7,8})
-     head = reverseBetween(head,2,4)
+     head := makeLinkedList([]int{1,2,3,4,5})
+    // head = revertNode(head)
+     head = reverseBetween(head,1,2)
      for head!=nil{
      	fmt.Println(head.Val)
      	head = head.Next
