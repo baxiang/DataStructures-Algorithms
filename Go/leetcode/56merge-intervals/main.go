@@ -28,7 +28,20 @@ func merge(intervals [][]int) [][]int {
 	return queue
 }
 
+func subarraySum(nums []int, k int) int {
+	var res,sum int
+	m := map[int]int{0:1}
+	for i:=0;i<len(nums);i++{
+		sum += nums[i]
+		if m[sum-k]>0{
+			res += m[sum-k]
+		}
+		m[sum]++
+	}
+	return res
+}
 func main() {
+
 	fmt.Println(merge([][]int{{1,3},{2,4},{8,10},{15,18}}))
 	fmt.Println(merge([][]int{{1,4},{4,5}}))
 }
