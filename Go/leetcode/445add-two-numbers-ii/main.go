@@ -57,30 +57,27 @@ func revertNode(l *ListNode) *ListNode {
 
 func main() {
     a1 :=  &ListNode{
-		 Val:  7,
+		 Val:  8,
 	 }
 	b1 :=  &ListNode{
-		Val:  2,
+		Val:  0,
 	}
 	a1.Next = b1
 	c1 :=  &ListNode{
-		Val:  4,
+		Val:  6,
 	}
 	b1.Next = c1
-	d1 :=  &ListNode{
-		Val:  3,
-	}
-	c1.Next = d1
+
 
 	a2 :=  &ListNode{
-		Val:  5,
+		Val:  1,
 	}
 	b2 :=  &ListNode{
-		Val:  6,
+		Val:  2,
 	}
 	a2.Next = b2
 	c2 :=  &ListNode{
-		Val:  4,
+		Val:  3,
 	}
 	b2.Next = c2
 
